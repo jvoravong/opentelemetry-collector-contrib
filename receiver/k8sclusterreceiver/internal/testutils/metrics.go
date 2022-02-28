@@ -53,10 +53,10 @@ func AssertMetricsWithLabels(t *testing.T, actualMetric *metricspb.Metric,
 		"mismatching labels",
 	)
 
-	AssertMetrics(t, actualMetric, expectedMetric, expectedType, expectedValue)
+	AssertMetricsInt(t, actualMetric, expectedMetric, expectedType, expectedValue)
 }
 
-func AssertMetrics(t *testing.T, actualMetric *metricspb.Metric,
+func AssertMetricsInt(t *testing.T, actualMetric *metricspb.Metric,
 	expectedMetric string, expectedType metricspb.MetricDescriptor_Type,
 	expectedValue int64) {
 
@@ -80,6 +80,34 @@ func AssertMetrics(t *testing.T, actualMetric *metricspb.Metric,
 	require.Equal(t,
 		expectedValue,
 		actualMetric.Timeseries[0].Points[0].GetInt64Value(),
+		"mismatching metric values",
+	)
+}
+
+func AssertMetricsDouble(t *testing.T, actualMetric *metricspb.Metric,
+	expectedMetric string, expectedType metricspb.MetricDescriptor_Type,
+	expectedValue float64) {
+
+	require.Equal(t,
+		expectedMetric,
+		actualMetric.MetricDescriptor.Name,
+		"mismatching metric names",
+	)
+
+	require.NotEmpty(t,
+		actualMetric.MetricDescriptor.Description,
+		"empty description on metric",
+	)
+
+	require.Equal(t,
+		expectedType,
+		actualMetric.MetricDescriptor.Type,
+		"mismatching metric types",
+	)
+
+	require.Equal(t,
+		expectedValue,
+		actualMetric.Timeseries[0].Points[0].GetDoubleValue(),
 		"mismatching metric values",
 	)
 }

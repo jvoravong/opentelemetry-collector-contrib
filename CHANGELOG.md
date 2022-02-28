@@ -16,6 +16,9 @@
 - `resourcedetectionprocessor`: Add confighttp.HTTPClientSettings To Resource Detection Config Fixes (#7397)
 - `honeycombexporter`: Add validation for `sending_queue` setting (#8113)
 - `routingprocessor`: Expand error handling on failure to build exporters (#8125)
+- k8sclusterreceiver: Add support to enable k8s node and container cpu metrics to be reported as double values (#TBD) 
+  - Use "--feature-gates=receiver.k8sclusterreceiver.reportcpumetricsasdouble" to enable reporting node and container 
+    cpu metrics as a double values.
 
 ### 🛑 Breaking changes 🛑
 
