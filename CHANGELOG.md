@@ -25,6 +25,7 @@
 - `datadogexporter`: Some config validation and unmarshaling steps are now done on `Validate` and `Unmarshal` instead of `Sanitize` (#8829)
 - `examples`: Add an example for scraping Couchbase metrics (#10894)
 - `googlecloudpubsubreceiver`: Added new `Endpoint` and `Insecure` connection configuration options. (#10845)
+- `signalfxexporter`: Enable the exporting of Kubelet stats metrics used in Splunk content by default (#TBD)
 
 ### 🧰 Bug fixes 🧰
 
