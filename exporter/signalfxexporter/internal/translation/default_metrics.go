@@ -120,8 +120,12 @@ exclude_metrics:
 
   - /^k8s\.container\..+_request$/
 
-  # matches any node condition but k8s.node.condition_ready
+  # matches any node condition but memory_pressure, network_unavailable, out_of_disk, p_i_d_pressure, and ready
   - /^k8s\.node\.condition_.+$/
+  - '!k8s.node.condition_memory_pressure'
+  - '!k8s.node.condition_network_unavailable'
+  - '!k8s.node.condition_out_of_disk'
+  - '!k8s.node.condition_p_i_d_pressure'
   - '!k8s.node.condition_ready'
 
   # kubelet metrics

@@ -37,6 +37,11 @@ translation_rules:
   mapping:
     # kubeletstats container cpu needed for calculation below
     container.cpu.time: sf_temp.container_cpu_utilization
+    # XXX: Added so that Smart Agent metrics and OTel metrics don't map to the same MTS identity
+    # (same metric and dimension names and values) after mappings are applied. This could be
+    # the case if somebody uses this signalfxexporter and a receiver that emits container.cpu.utilization
+	add_dimensions:
+      receiver: signalfxexportertranslation
 
 # compute cpu utilization metrics: cpu.utilization_per_core (excluded by default) and cpu.utilization
 - action: delta_metric
