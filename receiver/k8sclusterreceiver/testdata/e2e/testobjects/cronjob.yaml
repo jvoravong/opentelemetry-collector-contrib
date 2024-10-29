@@ -1,0 +1,19 @@
+kind: CronJob
+apiVersion: batch/v1
+metadata:
+  name: test-k8scluster-receiver-cronjob
+  namespace: default
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: simple-job
+              image: alpine
+              args:
+                - /bin/sh
+                - -c
+                - "echo Running; sleep 60"
+          restartPolicy: OnFailure
