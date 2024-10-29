@@ -1,8 +1,6 @@
 // Copyright The OpenTelemetry Authors
 // SPDX-License-Identifier: Apache-2.0
 
-//go:build e2e
-
 package k8sclusterreceiver
 
 import (
@@ -27,6 +25,7 @@ import (
 )
 
 const testKubeConfig = "/tmp/kube-config-otelcol-e2e-testing"
+const testObjectsDir = "./testdata/e2e/testobjects/"
 
 // TestE2E tests the k8s cluster receiver with a real k8s cluster.
 // The test requires a prebuilt otelcontribcol image uploaded to a kind k8s cluster defined in
@@ -58,6 +57,14 @@ func TestE2E(t *testing.T) {
 		}
 	}()
 
+	// additional k8s objs
+	testObjs, err := k8stest.CreateObjects(k8sClient, testObjectsDir)
+	require.NoErrorf(t, err, "failed to create object")
+
+	defer func() {
+		require.NoErrorf(t, k8stest.DeleteObjects(k8sClient, testObjs), "failed to delete object")
+	}()
+
 	wantEntries := 10 // Minimal number of metrics to wait for.
 	waitForData(t, wantEntries, metricsConsumer)
 
@@ -83,6 +90,7 @@ func TestE2E(t *testing.T) {
 	containerImageShorten := func(value string) string {
 		return value[(strings.LastIndex(value, "/") + 1):]
 	}
+
 	require.NoError(t, pmetrictest.CompareMetrics(expected, metricsConsumer.AllMetrics()[len(metricsConsumer.AllMetrics())-1],
 		pmetrictest.IgnoreTimestamp(),
 		pmetrictest.IgnoreStartTimestamp(),
